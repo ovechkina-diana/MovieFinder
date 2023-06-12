@@ -1,0 +1,74 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Подробная информация о фильме{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'main/css/movie-datail-style.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Детальная информация о фильме -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{ film.poster }}" alt="Постер фильма" class="img-thumbnail">
+        </div>
+        <div class="col-md-8">
+            <h1>{{ film.title }}</h1>
+            <p class="lead">{{ film.description }}</p>
+            <ul class="list-unstyled">
+                <li><strong>Год:</strong> {{ film.year }}</li>
+                <li><strong>Жанр:</strong>
+                    {% for genre in film.genre.all %}
+                    {{ genre.name }}
+                    {% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                </li>
+                <li><strong>Режиссер:</strong>
+                    {% for director in film.directors.all %}
+                    {{ director.name }} {{ director.surname }}
+                    {% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                </li>
+                <li><strong>В главных ролях:</strong>
+                    {% for actor in film.actors.all %}
+                    {{ actor.name }} {{ actor.surname }}
+                    {% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                </li>
+            </ul>
+            <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary {% if enrollment and enrollment.isViewed %}active viewed-label{% else %}not-viewed-label{% endif %}">
+                    <input type="checkbox" id="is-viewed-checkbox" autocomplete="off" {% if enrollment and enrollment.isViewed %}checked{% endif %}> Просмотрен
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#is-viewed-checkbox').change(function() {
+            var isChecked = $(this).is(':checked');
+            var filmSlug = '{{ film.slug }}';
+
+            $.ajax({
+                type: 'POST',
+                url: '/film/' + filmSlug,
+                data: {
+                    'is_viewed': isChecked,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    // Обработка успешного ответа, если необходимо
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибки, если необходимо
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

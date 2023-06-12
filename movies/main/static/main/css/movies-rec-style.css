@@ -1,0 +1,59 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card {
+    border: none;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+}
+
+.movie-card:hover {
+    transform: scale(1.1);
+}
+ #movie-card {
+     cursor: pointer;
+    transition: all 0.3s ease;
+
+ }
+
+
+.poster-rating {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.scrollable-section {
+  max-height: 200px; /* Высота, на которой будет появляться скроллинг */
+  overflow-y: auto; /* Включение вертикального скроллинга */
+}
+
+.movie-card:hover {
+    transform: scale(1.1);
+}
+ #movie-card {
+     cursor: pointer;
+    transition: all 0.3s ease;
+
+ }
+
+ #sidebar {
+        background-color: transparent;
+    }

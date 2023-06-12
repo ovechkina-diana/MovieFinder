@@ -1,0 +1,10 @@
+{% for film in films %}
+<div class="col-6 col-sm-4 col-md-3" data-genres="{{ film.genre.all|join:',' }}" data-year="{{ film.year }}">
+    <div class="card bg-dark text-light mb-3" id="movie-card">
+        <img src="{{ film.poster }}" class="card-img-top" data-bs-toggle="modal" data-bs-target="#movieModal{{ film.id }}" alt="{{ film.title }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ film.title }}</h5>
+        </div>
+    </div>
+</div>
+{% endfor %}

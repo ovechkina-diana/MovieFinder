@@ -1,0 +1,216 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}MovieFinder{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'main/css/movies-style.css' %}">
+{% endblock %}
+
+{% block content %}
+<img src="{% static 'main/img/logo.png' %}" alt="logo" class="img-fluid">
+    <div class="container mt-5">
+        <!-- Горизонтальный скроллинг с постерами фильмов -->
+        <div class="container mt-5 position-relative">
+            <div style="margin: 10px; display:inline-block, grid; max-width: 1000px;">
+                <big>Лучшие фильмы</big>
+<!--                <a href="{% url 'main:movies-rec' %}" class="btn btn-light" style="text-align: right;">Смотреть все</a>-->
+            </div>
+            <button class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y" onclick="scrollMovies('left')">&#8592;</button>
+            <div class="row flex-row flex-nowrap overflow-auto" id="moviesRow">
+                {% for film in films %}
+                <div class="col-6 col-sm-4 col-md-3">
+                    <div class="card bg-dark text-light mb-3" id="movie-card">
+                        <img src="{{ film.poster }}" class="card-img-top" data-bs-toggle="modal" data-bs-target="#movieModal{{ film.id }}" alt="{{ film.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ film.title }}</h5>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y" onclick="scrollMovies('right')">&#8594;</button>
+        </div>
+    </div>
+
+{%if request.user.is_authenticated %}
+    {% if films_on_genre|length > 0 %}
+    <div class="container mt-5">
+        <!-- Горизонтальный скроллинг с постерами фильмов -->
+        <div class="container mt-5 position-relative">
+            <div style="margin: 10px; display:inline-block, grid; max-width: 1000px;">
+                <big>Эксклюзивно для Вас</big>
+<!--                <a href="{% url 'main:movies-rec' %}" class="btn btn-light" style="text-align: right;">Смотреть все</a>-->
+            </div>
+            <button class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y" onclick="scrollMovies('left')">&#8592;</button>
+            <div class="row flex-row flex-nowrap overflow-auto" id="moviesRow">
+                {% for film in films_on_genre %}
+                <div class="col-6 col-sm-4 col-md-3">
+                    <div class="card bg-dark text-light mb-3" id="movie-card">
+                        <img src="{{ film.poster }}" class="card-img-top" data-bs-toggle="modal" data-bs-target="#movieModal{{ film.id }}" alt="{{ film.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ film.title }}</h5>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y" onclick="scrollMovies('right')">&#8594;</button>
+        </div>
+    </div>
+    {% endif %}
+{%endif%}
+
+<!-- Movie Modal -->
+    {% for film in films_on_genre %}
+    <div class="modal fade" id="movieModal{{ film.id }}" tabindex="-1" aria-labelledby="movieModalLabel{{ film.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="movieModalLabel{{ film.id }}">{{ film.title }}</h5>
+                    <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="{{ film.poster }}" class="img-fluid" alt="{{ film.title }}">
+                        </div>
+                        <div class="col-md-8">
+                            <p>Оценка: {{ film.rating }}/10</p>
+                            <p>Описание фильма: {{ film.description }}</p>
+                            <a href="{% url 'main:movie-detail' film.slug %}" class="btn btn-light">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+ <!-- Movie Modal -->
+    {% for film in films %}
+    <div class="modal fade" id="movieModal{{ film.id }}" tabindex="-1" aria-labelledby="movieModalLabel{{ film.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="movieModalLabel{{ film.id }}">{{ film.title }}</h5>
+                    <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="{{ film.poster }}" class="img-fluid" alt="{{ film.title }}">
+                        </div>
+                        <div class="col-md-8">
+                            <p>Оценка: {{ film.rating }}/10</p>
+                            <p>Описание фильма: {{ film.description }}</p>
+                            <a href="{% url 'main:movie-detail' film.slug %}" class="btn btn-light">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+   <!-- Genre Modal -->
+    <div class="modal fade" id="genreModal" tabindex="-1" aria-labelledby="genreModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="genreModalLabel">Выберите ваши любимые жанры</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Форма выбора жанров -->
+                    <form id="genreForm" method="post" action="{% url 'user:genre_selection' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for genre in genres %}
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input genre-checkbox" type="checkbox" value="{{ genre.id }}" name="genres" id="genre{{ genre.id }}">
+                                        <label class="form-check-label genre-label" for="genre{{ genre.id }}">{{ genre.name }}</label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Получение CSRF-токена из cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Имя cookie совпадает с именем CSRF-токена
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            {% if show_genre_modal %}
+                $('#genreModal').modal('show');  // Открытие модального окна с выбором жанров
+            {% endif %}
+
+            // Обработчик клика на квадратик с жанром
+            $('.genre-item').on('click', function () {
+                $(this).toggleClass('selected');  // Добавление/удаление класса selected при выборе/снятии выбора
+            });
+
+            // Обработчик отправки формы выбора жанров
+            $('#genreForm').on('submit', function (e) {
+                e.preventDefault();  // Отмена стандартного действия формы
+
+                var selectedGenres = [];  // Массив для хранения выбранных жанров
+
+                $('.genre-checkbox:checked').each(function () {
+                    selectedGenres.push($(this).val());  // Добавление ID выбранного жанра в массив
+                });
+
+                console.log(selectedGenres);
+
+                // Получение CSRF-токена
+                var csrfToken = getCookie('csrftoken');
+
+                // Отправка данных на сервер
+                $.ajax({
+                    url: '{% url 'user:genre_selection' %}',
+                    method: 'GET',
+                    headers: { 'X-CSRFToken': csrfToken },  // Передача CSRF-токена в заголовках запроса
+                    data: {
+                        'genres': selectedGenres.join(',')
+                    },
+                    success: function () {
+                        // Действия после успешной отправки данных
+                        $('#genreModal').modal('hide');  // Закрытие модального окна
+                    },
+                    error: function () {
+                        // Действия в случае ошибки
+                        alert('Произошла ошибка при сохранении жанров.');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+

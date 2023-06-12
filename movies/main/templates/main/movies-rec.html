@@ -1,0 +1,123 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}MovieFinder{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'main/css/movies-rec-style.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Выдвигающееся меню -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3" id="sidebar">
+            <div class="d-flex">
+                <h3 class="mt-3">Фильтры</h3>
+                <button class="btn btn-secondary ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="true" aria-controls="filters">Показать/скрыть</button>
+            </div>
+            <div class="collapse show" id="filters">
+                <div class="card bg-secondary mt-3">
+                    <div class="card-body">
+                        <h5>Жанр</h5>
+                        <div class="filter-section scrollable-section expandable">
+                            {% for genre in genres %}
+                            <input type="checkbox" id="genre_{{ genre.id }}" class="genre-checkbox" name="genres" value="{{ genre.id }}" />
+                            <label for="genre_{{ genre.id }}">{{ genre.name }}</label><br />
+                            {% endfor %}
+                        </div>
+
+                        <h5 class="mt-3">Год</h5>
+                        <div class="filter-section scrollable-section expandable">
+                            {% for year in years %}
+                            <input type="checkbox" id="year_{{ year }}" class="year-checkbox" name="years" value="{{ year }}" />
+                            <label for="year_{{ year }}">{{ year }}</label><br />
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Постеры фильмов -->
+        <div class="col-md-9">
+            <div class="container position-relative">
+                <div style="margin: 10px; display:inline-block, grid;">
+                    <big>Лучшие фильмы</big>
+                </div>
+                <div class="row flex-row overflow-auto" id="moviesRow">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Movie Modal -->
+{% for film in films %}
+<div class="modal fade" id="movieModal{{ film.id }}" tabindex="-1" aria-labelledby="movieModalLabel{{ film.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title" id="movieModalLabel{{ film.id }}">{{ film.title }}</h5>
+                <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{ film.poster }}" class="img-fluid" alt="{{ film.title }}">
+                    </div>
+                    <div class="col-md-8">
+                        <p>Оценка: {{ film.rating }}/10</p>
+                        <p>Описание фильма: {{ film.description }}</p>
+                        <a href="{% url 'main:movie-detail' film.slug %}" class="btn btn-light">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script>
+    function loadMovies() {
+        var selectedGenres = Array.from(document.querySelectorAll('.genre-checkbox:checked')).map(function(checkbox) {
+            return checkbox.value;
+        });
+        var selectedYears = Array.from(document.querySelectorAll('.year-checkbox:checked')).map(function(checkbox) {
+            return checkbox.value;
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'main:movie-list' %}',
+            data: {
+                'genres': selectedGenres.join(','),
+                'years': selectedYears.join(',')
+            },
+            success: function(response) {
+                $('#moviesRow').html(response);
+
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function filterMovies() {
+        loadMovies();
+    }
+
+    $('.genre-checkbox, .year-checkbox').on('change', function() {
+        filterMovies();
+    });
+
+    $(document).ready(function() {
+        filterMovies();
+    });
+</script>
+{% endblock %}

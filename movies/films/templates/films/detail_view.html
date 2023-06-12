@@ -1,0 +1,17 @@
+{% extends 'main/layout.html'%}
+
+{% block title %}{{film.title}}{% endblock%}
+
+{% block content%}
+    <div class="features">
+         <h1>{{film.title}}</h1>
+        <p>{{film.genre}}</p>
+        <p>{{film.year}}</p>
+        <p>{{film.description}}</p>
+        <a href="{% url 'film-delete' film.id%}" class = "btn btn-danger">Удалить</a>
+        <a href="{% url 'film-update' film.id%}" class = "btn btn-info">Редактировать</a>
+
+
+    </div>
+
+{% endblock%}

@@ -1,0 +1,125 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.movies-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 15px;
+}
+
+.movie-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+    background-color: #343a40;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.movie-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.movie-card h6 {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.form-check label {
+    color: #ffffff;
+}
+
+.search {
+display: inline;
+}
+
+.nav-item-icon {
+align: right;
+}
+
+.img-fluid {
+    max-width: 100%
+}
+
+#moviesRow {
+    display: flex;
+    overflow-x: scroll;
+    gap: 1rem;
+    justify-content: flex-start;
+
+}
+
+.movie-poster {
+    width: 25%; /* Распределение по 4 постера в строке */
+    padding: 5px;
+    cursor: pointer;
+    position: relative; /* Добавление позиционирования */
+}
+
+.movie-title {
+        cursor: pointer; /* Сделать название кликабельным */
+    }
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+}
+
+.movie-card:hover {
+    transform: scale(1.1);
+}
+ #movie-card {
+     cursor: pointer;
+    transition: all 0.3s ease;
+
+ }
+
+
+.poster-rating {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+.scrollable-section {
+  max-height: 200px; /* Высота, на которой будет появляться скроллинг */
+  overflow-y: auto; /* Включение вертикального скроллинга */
+}
+
+.movie-card:hover {
+    transform: scale(1.1);
+}
+ #movie-card {
+     cursor: pointer;
+    transition: all 0.3s ease;
+
+ }
+
+ #sidebar {
+        background-color: transparent;
+    }
+
+/* Дополнительные стили для показа первых 5 элементов */
+/*.scrollable-section.expandable > *:nth-child(n+6) {
+  display: none;
+}
+
+.scrollable-section.expanded > * {
+  display: block;
+}
+*/
