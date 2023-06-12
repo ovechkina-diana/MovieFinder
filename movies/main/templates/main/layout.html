@@ -38,14 +38,9 @@
         {%if request.user.is_authenticated%}
             <li><a class="nav-link nav-link-divider" href="{% url 'user:logout' %}">Выйти</a></li>
             <li><a class="nav-link" href="{% url 'user:profile' %}"> Личный кабинет</a></li>
-
         {%else%}
-            <li>
-                <a class="nav-link nav-link-divider" href="{% url 'user:login' %}">Вход</a>
-            </li>
-            <li>
-                <a class="nav-link" href="{% url 'user:register' %}">Регистрация</a>
-            </li>
+            <li><a class="nav-link nav-link-divider" href="{% url 'user:login' %}">Вход</a></li>
+            <li><a class="nav-link" href="{% url 'user:register' %}">Регистрация</a></li>
         {%endif%}
     </li>
 </ul>

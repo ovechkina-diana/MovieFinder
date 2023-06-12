@@ -38,11 +38,13 @@
                     {% endfor %}
                 </li>
             </ul>
+            {%if request.user.is_authenticated %}
             <div class="btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary {% if enrollment and enrollment.isViewed %}active viewed-label{% else %}not-viewed-label{% endif %}">
                     <input type="checkbox" id="is-viewed-checkbox" autocomplete="off" {% if enrollment and enrollment.isViewed %}checked{% endif %}> Просмотрен
                 </label>
             </div>
+            {%endif %}
         </div>
     </div>
 </div>
