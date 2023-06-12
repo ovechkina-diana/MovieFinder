@@ -41,8 +41,8 @@ body {
 }
 
 .scrollable-section {
-  max-height: 200px; /* Высота, на которой будет появляться скроллинг */
-  overflow-y: auto; /* Включение вертикального скроллинга */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .movie-card:hover {

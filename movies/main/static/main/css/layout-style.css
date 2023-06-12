@@ -6,10 +6,10 @@
     content: "";
     position: absolute;
     top: 50%;
-    right: -5px; /* Расстояние от правого края */
+    right: -5px;
     transform: translateY(-50%);
     width: 1px;
-    height: 80%; /* Высота разделительной линии */
-    background-color: #fff; /* Цвет разделительной линии */
+    height: 80%;
+    background-color: #fff;
 
 }

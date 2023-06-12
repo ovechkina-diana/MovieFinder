@@ -59,14 +59,14 @@ align: right;
 }
 
 .movie-poster {
-    width: 25%; /* Распределение по 4 постера в строке */
+    width: 25%;
     padding: 5px;
     cursor: pointer;
-    position: relative; /* Добавление позиционирования */
+    position: relative;
 }
 
 .movie-title {
-        cursor: pointer; /* Сделать название кликабельным */
+        cursor: pointer;
     }
 
 .card-img-top {
@@ -97,8 +97,8 @@ align: right;
 
 
 .scrollable-section {
-  max-height: 200px; /* Высота, на которой будет появляться скроллинг */
-  overflow-y: auto; /* Включение вертикального скроллинга */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .movie-card:hover {
@@ -114,12 +114,3 @@ align: right;
         background-color: transparent;
     }
 
-/* Дополнительные стили для показа первых 5 элементов */
-/*.scrollable-section.expandable > *:nth-child(n+6) {
-  display: none;
-}
-
-.scrollable-section.expanded > * {
-  display: block;
-}
-*/
