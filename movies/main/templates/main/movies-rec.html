@@ -83,24 +83,29 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script>
+    // Функция для загрузки списка фильмов с сервера
     function loadMovies() {
+        // Получаем выбранные жанры из отмеченных флажков
         var selectedGenres = Array.from(document.querySelectorAll('.genre-checkbox:checked')).map(function(checkbox) {
             return checkbox.value;
         });
+
+        // Получаем выбранные годы из отмеченных флажков
         var selectedYears = Array.from(document.querySelectorAll('.year-checkbox:checked')).map(function(checkbox) {
             return checkbox.value;
         });
 
+        // Отправляем AJAX-запрос на сервер для получения отфильтрованного списка фильмов
         $.ajax({
             type: 'GET',
             url: '{% url 'main:movie-list' %}',
             data: {
-                'genres': selectedGenres.join(','),
-                'years': selectedYears.join(',')
+                'genres': selectedGenres.join(','), // Передаем выбранные жанры в параметре 'genres'
+                'years': selectedYears.join(',') // Передаем выбранные годы в параметре 'years'
             },
             success: function(response) {
+                // Обновляем содержимое элемента с идентификатором 'moviesRow' на странице
                 $('#moviesRow').html(response);
-
             },
             error: function(xhr, status, error) {
                 console.error(error);
@@ -108,14 +113,17 @@
         });
     }
 
+    // Функция для фильтрации фильмов
     function filterMovies() {
         loadMovies();
     }
 
+    // Привязка обработчика события 'change' к флажкам жанров и годов
     $('.genre-checkbox, .year-checkbox').on('change', function() {
         filterMovies();
     });
 
+    // Выполняем код при полной загрузке DOM-структуры страницы
     $(document).ready(function() {
         filterMovies();
     });
