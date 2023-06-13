@@ -9,7 +9,7 @@ from .models import UserProfile
 from .forms import RegisterUserForm, LoginUserForm
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView
 
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
@@ -55,7 +55,6 @@ def genre_selection(request):
         return HttpResponse('Success')
     else:
         return HttpResponse('Method Not Allowed', status=405)
-
 
 def logout_user(request):
     logout(request)

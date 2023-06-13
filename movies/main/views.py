@@ -51,14 +51,11 @@ class FilmDeatilView(DetailView):
             context['enrollment'] = enrollment
         return context
 
-
 class MovieSelection(ListView):
     model = Film
     template_name = 'main/movies-selection.html'
     context_object_name = 'films'
     queryset = Film.objects.all()[:10]
-
-
 
 def movie_list(request):
     genres = request.GET.get('genres')
@@ -93,16 +90,6 @@ def movies_rec(request):
 
     return render(request, 'main/movies-rec.html', data)
 
-
-
-def about(request):
-    return render(request, 'main/about.html')
-
-def movies(request):
-
-    return render(request, 'main/movies.html')
-
-
 def movies_rec(request):
     genres = Genre.objects.all().order_by('name')
     films = Film.objects.all()
@@ -110,11 +97,6 @@ def movies_rec(request):
     return render(request, 'main/movies-rec.html', {'genres': genres, 'films': films, 'years': years})
 
 
-def create_slugs():
-    films = Film.objects.all()
-    for film in films:
-        film.slug = slugify(film.title)
-        # film.save()
 
 
 
